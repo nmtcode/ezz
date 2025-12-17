@@ -1,0 +1,19 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main  # أو master حسب اسم الفرع عندك
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/workspace/my-project
+            git pull origin main
