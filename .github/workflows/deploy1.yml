@@ -1,0 +1,20 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p ~/workspace/ezz
+            cd ~/workspace/ezz
+            git pull origin main || git clone https://github.com/nmtcode/ezz.git .
